@@ -98,7 +98,7 @@ def menu():
                 print("No hay paquetes para procesar.")
             else:
                 while not heap.esta_vacio():
-                    print(heap.procesar_elimninar())
+                    print(heap.procesar())
 
         elif opcion == "3":
             print("\n--- Ver historial ---")

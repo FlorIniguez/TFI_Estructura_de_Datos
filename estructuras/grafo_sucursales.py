@@ -11,9 +11,10 @@ class Grafo:
         self.adyacencias = []   # Lista de listas: cada nodo tiene su lista de vecinos
 
     def agregar_sucursal(self):
-        #Agrega una nueva sucursal al grafo.
+       #Cuando agrego una sucursal, simplemente agrego una lista vacía a la lista de adyacencia.
+        #El índice donde se inserta esa lista es el ID de la sucursal.
         self.adyacencias.append([])  
-        return len(self.adyacencias) - 1  # devuelve el índice del nuevo nodo
+        return len(self.adyacencias) - 1  # devuelve el ID  asignado al nuevo nodo
 
     def agregar_ruta(self, origen, destino, peso=1):
         """
@@ -30,7 +31,7 @@ class Grafo:
             self.agregar_sucursal()
         while destino >= len(self.adyacencias):
             self.agregar_sucursal()
-
+#Después, cuando agrego rutas, agrego tuplas dentro de esa sublista, indicando hacia dónde va y la distancia
         self.adyacencias[origen].append((destino, peso))
 
 
