@@ -107,10 +107,10 @@ def menu():
 
         case "6":
             print("\n--- Dijkstra ---")
-            origen = input("Sucursal origen: ")
-            destino = input("Sucursal destino: ")
+            origen =  int(input("ID Sucursal origen: "))
+            destino = int(input("ID Sucursal destino: "))
 
-            dijkstra_mostrar(grafo, sucursales, mapa_sucursales, origen, destino)
+            dijkstra_mostrar(grafo, sucursales, origen, destino)
 
         case "7":
             print("\n--- Orden Topológico ---")

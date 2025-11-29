@@ -58,25 +58,20 @@ def dijkstra(grafo, origen, destino):
 
     return dist[destino], camino
 
-def dijkstra_mostrar(grafo, sucursales, mapa_sucursales, origen_nombre, destino_nombre):
-
-    origen_nombre = origen_nombre.lower()
-    destino_nombre = destino_nombre.lower()
-
-    # Validación de nombres
-    if origen_nombre not in mapa_sucursales or destino_nombre not in mapa_sucursales:
+def dijkstra_mostrar(grafo, sucursales,origen_id, destino_id):
+    # Validación de IDs
+    n_sucursales = len(sucursales)
+    if origen_id < 0 or origen_id >= n_sucursales or destino_id < 0 or destino_id >= n_sucursales:
         print("Alguna sucursal no existe.")
         return
 
-    o = mapa_sucursales[origen_nombre]
-    d = mapa_sucursales[destino_nombre]
-
-    distancia, camino = dijkstra(grafo, o, d)
+    distancia, camino = dijkstra(grafo, origen_id, destino_id)
 
     if distancia is None:
         print("No existe camino entre esas sucursales.")
         return
 
+    # Convertimos IDs a nombres para mostrar al usuario
     nombres = [sucursales[n].nombre for n in camino]
 
     print("\n--- Resultado Dijkstra ---")

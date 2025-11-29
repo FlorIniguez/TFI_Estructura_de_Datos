@@ -102,7 +102,7 @@ def cargar_datos_iniciales():
     heap = MinHeap()
     for paquete in paquetes:
         heap.insertar_paquete(paquete)
-
+    #Con max tomo el id maximo de la lista de paquetes
     ultimo_id = max(p.id_paquete for p in paquetes)
 
 

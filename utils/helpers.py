@@ -1,8 +1,6 @@
 from modelos.sucursal import Sucursal
 
-# --------------------------------
 #   AGREGAR SUCURSAL
-# --------------------------------
 def agregar_sucursal(sucursales, grafo, mapa_sucursales):
     print("\n--- Agregar Nueva Sucursal ---")
     
@@ -27,9 +25,7 @@ def agregar_sucursal(sucursales, grafo, mapa_sucursales):
     print("\nSucursal agregada correctamente.\n")
 
 
-# --------------------------------
 #   MODIFICAR SUCURSAL
-# --------------------------------
 def modificar_sucursal(sucursales, mapa_sucursales):
     print("\n--- Modificar Sucursal ---")
     nombre = input("Nombre actual de la sucursal: ").lower()
@@ -42,7 +38,7 @@ def modificar_sucursal(sucursales, mapa_sucursales):
     suc = sucursales[idx]
 
     print(f"\nModificando: {suc.nombre}")
-    print("Deje en blanco para mantener el valor actual.\n")
+    print("eNTER para mantener el valor actual.\n")
 
     nuevo_nombre = input(f"Nuevo nombre ({suc.nombre}): ").strip()
     nueva_prov = input(f"Nueva provincia ({suc.provincia}): ").strip()
@@ -61,7 +57,7 @@ def modificar_sucursal(sucursales, mapa_sucursales):
         suc.direccion = nueva_dir
 
     print("\nSucursal modificada correctamente.\n")
-
+# < num alineo a la izquierda y ocupa num cantidad de caracteres, si tiene menos deja el espacio
 def listar_sucursales(sucursales):
     print("\n--- Lista de Sucursales ---")
     print(f"{'ID':<3} | {'Nombre':<15} | {'Provincia':<15} | {'Dirección'}")
