@@ -20,17 +20,18 @@ def cargar_datos_iniciales():
     # 2) Crear instancias de Sucursales (datos descriptivos)
    
     sucursales = [
-        Sucursal(0, "Buenos Aires", "CABA"),
-        Sucursal(1, "La Plata", "BA"),
-        Sucursal(2, "Mar del Plata", "BA"),
-        Sucursal(3, "Rosario", "Santa Fe"),
-        Sucursal(4, "Córdoba", "Córdoba"),
-        Sucursal(5, "Mendoza", "Mendoza"),
-        Sucursal(6, "San Luis", "San Luis"),
-        Sucursal(7, "Neuquén", "Neuquén"),
-        Sucursal(8, "Bariloche", "Río Negro"),
-        Sucursal(9, "Ushuaia", "Tierra del Fuego"),
-    ]
+        Sucursal(0, "Buenos Aires", "CABA", "Av. 9 de Julio 100"),
+        Sucursal(1, "La Plata", "Buenos Aires", "Calle 7 n° 850"),
+        Sucursal(2, "Mar del Plata", "Buenos Aires", "Av. Colón 1850"),
+        Sucursal(3, "Rosario", "Santa Fe", "Bv. Oroño 1200"),
+        Sucursal(4, "Córdoba", "Córdoba", "Av. Colón 350"),
+        Sucursal(5, "Mendoza", "Mendoza", "Av. San Martín 900"),
+        Sucursal(6, "San Luis", "San Luis", "Av. Illia 450"),
+        Sucursal(7, "Neuquén", "Neuquén", "Av. Argentina 700"),
+        Sucursal(8, "Bariloche", "Río Negro", "Mitre 300"),
+        Sucursal(9, "Ushuaia", "Tierra del Fuego", "San Martín 125"),
+]
+
 
     # Diccionario para buscar  Id de sucursales por nombre
     #s.nombre.lower(): s.id_sucursal Transformo cada nombre e id de sucursal en un diccionario

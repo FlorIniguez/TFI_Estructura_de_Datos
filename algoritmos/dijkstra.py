@@ -57,3 +57,28 @@ def dijkstra(grafo, origen, destino):
     camino.reverse()
 
     return dist[destino], camino
+
+def dijkstra_mostrar(grafo, sucursales, mapa_sucursales, origen_nombre, destino_nombre):
+
+    origen_nombre = origen_nombre.lower()
+    destino_nombre = destino_nombre.lower()
+
+    # Validación de nombres
+    if origen_nombre not in mapa_sucursales or destino_nombre not in mapa_sucursales:
+        print("Alguna sucursal no existe.")
+        return
+
+    o = mapa_sucursales[origen_nombre]
+    d = mapa_sucursales[destino_nombre]
+
+    distancia, camino = dijkstra(grafo, o, d)
+
+    if distancia is None:
+        print("No existe camino entre esas sucursales.")
+        return
+
+    nombres = [sucursales[n].nombre for n in camino]
+
+    print("\n--- Resultado Dijkstra ---")
+    print("Camino más corto:", " → ".join(nombres))
+    print("Distancia total:", distancia, "km")

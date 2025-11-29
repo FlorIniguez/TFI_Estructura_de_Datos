@@ -1,10 +1,9 @@
-from modelos.paquete import Paquete
-from modelos.sucursal import Sucursal
-from algoritmos.dfs_bfs import dfs_camino, bfs_camino
-from algoritmos.dijkstra import dijkstra
-from algoritmos.topologico import orden_topologico
+from algoritmos.dfs_bfs import dfs_mostrar_camino, bfs_mostrar_camino
+from algoritmos.dijkstra import dijkstra_mostrar
+from algoritmos.topologico import mostrar_orden_topologico
 from utils.cargar_dattos import cargar_datos_iniciales
 from utils.registrar_paquete import registrar_paquete
+from utils.helpers import agregar_sucursal,modificar_sucursal, listar_sucursales
 """
 Árbol General → historial de paquetes
 
@@ -26,19 +25,6 @@ Topológico → dependencias de rutas / detectar ciclos en la red
 
 grafo,sucursales, paquetes,abb, heap, mapa_sucursales, ultimo_id = cargar_datos_iniciales()
 
-# ==============================
-# FUNCIÓN PARA BUSCAR PAQUETE
-
-def buscar_paquete_en_abb(abb, id_paquete):
-    nodo = abb.raiz
-    while nodo is not None:
-        if id_paquete == nodo.paquete.id_paquete:
-            return nodo.paquete
-        elif id_paquete < nodo.paquete.id_paquete:
-            nodo = nodo.izq
-        else:
-            nodo = nodo.der
-    return None
 """
 Sistema de Gestión de Envíos - Datos precargados para pruebas
 
@@ -70,128 +56,85 @@ ID | Peso | Prioridad | Origen        | Destino
   ------- Paquetes con historial cargado ID 101 y 102 ---------
 """
 def menu():
-    global ultimo_id   # ← NECESARIO para modificar la variable de afuera8
-    while True:
-        print("\n====================================")
-        print("     SISTEMA DE ENVÍOS - MENÚ       ")
-        print("====================================")
-        print("1. Mostrar paquetes en ABB (inorden)")
-        print("2. Procesar paquetes por prioridad (Heap)")
-        print("3. Ver historial de un paquete (arbol general)")
-        print("4. Camino más corto (BFS)")
-        print("5. Camino posible (DFS)")
-        print("6. Camino mínimo por distancia (Dijkstra)")
-        print("7. Ordenamiento Topológico")
-        print("8. Ingresar nuevo paquete")
-        print("0. Salir")
-        
-        opcion = input("\nElegí una opción: ")
+    global ultimo_id
 
- 
-        if opcion == "1":
+    print("\n====================================")
+    print("     SISTEMA DE ENVÍOS - MENÚ       ")
+    print("====================================")
+    print("1. Mostrar paquetes en ABB (inorden)")
+    print("2. Procesar paquetes por prioridad (Heap)")
+    print("3. Ver historial de un paquete")
+    print("4. Camino más corto (BFS)")
+    print("5. Camino posible (DFS)")
+    print("6. Camino mínimo por distancia (Dijkstra)")
+    print("7. Ordenamiento Topológico")
+    print("8. Ingresar nuevo paquete")
+    print("9. Agregar sucursal")
+    print("10. Modificar sucursal")
+    print("11. Listar sucursales")
+
+    print("0. Salir")
+
+    opcion = input("\nElegí una opción: ")
+
+    match opcion:
+        case "1":
             print("\n--- Paquetes en ABB (inorden) ---")
             abb.inorden()
-   
-        elif opcion == "2":
-            print("\n--- Procesando paquetes (Heap) ---")
-            if heap.esta_vacio():
-                print("No hay paquetes para procesar.")
-            else:
-                while not heap.esta_vacio():
-                    print(heap.procesar())
 
-        elif opcion == "3":
+        case "2":
+            print("\n--- Procesando paquetes (Heap) ---")
+            print(heap.procesar())    
+
+        case "3":
             print("\n--- Ver historial ---")
             pid = int(input("ID del paquete: "))
-
             paquete = abb.buscar_paquete_id(pid)
-            if paquete is None:
-                print("Paquete no encontrado en el ABB.")
-            else:
-                print(f"Historial del paquete {pid}:")
-                paquete.historial.mostrar(paquete.historial.raiz)
+            paquete.historial.mostrar(paquete.historial.raiz)
 
-        elif opcion == "4":
-            print("\n--- BFS Camino más corto (en tramos) ---")
-
+            
+        case "4":
+            print("\n--- BFS Camino más corto ---")
             o = int(input("ID Sucursal origen: "))
             d = int(input("ID Sucursal destino: "))
+            bfs_mostrar_camino(grafo, sucursales, o, d)
 
-            if o >= len(sucursales) or d >= len(sucursales):
-                print("Alguna sucursal no existe.")
-                continue
-
-            camino = bfs_camino(grafo, o, d)
-
-            if camino is None:
-                print("No existe camino entre las sucursales.")
-            else:
-                nombres = [sucursales[n].nombre for n in camino]
-                print("Camino:", " → ".join(nombres))
-
-
-        elif opcion == "5":
+        case "5":
             print("\n--- DFS Algún camino posible ---")
-
             o = int(input("ID Sucursal origen: "))
             d = int(input("ID Sucursal destino: "))
+            dfs_mostrar_camino(grafo, sucursales, o, d)
 
-            if o >= len(sucursales) or d >= len(sucursales):
-                print("Alguna sucursal no existe.")
-                continue
-
-            camino = dfs_camino(grafo, o, d)
-
-            if camino is None:
-                print("No existe ruta posible.")
-            else:
-                nombres = [sucursales[n].nombre for n in camino]
-                print("Camino:", " → ".join(nombres))
-
-        elif opcion == "6":
+        case "6":
             print("\n--- Dijkstra ---")
-            print("Ingrese el NOMBRE de la sucursal (ej: 'Buenos Aires', 'Bariloche', 'Ushuaia')")
+            origen = input("Sucursal origen: ")
+            destino = input("Sucursal destino: ")
 
-            origen_nombre = input("Sucursal origen: ").lower()
-            destino_nombre = input("Sucursal destino: ").lower()
+            dijkstra_mostrar(grafo, sucursales, mapa_sucursales, origen, destino)
 
-            if origen_nombre not in mapa_sucursales or destino_nombre not in mapa_sucursales:
-                print("Alguna sucursal no existe.")
-                continue
-
-            o = mapa_sucursales[origen_nombre]
-            d = mapa_sucursales[destino_nombre]
-
-            distancia, camino = dijkstra(grafo, o, d)
-
-            if distancia is None:
-                print("No existe camino entre esas sucursales.")
-            else:
-                nombres = [sucursales[n].nombre for n in camino]
-                print("Camino más corto:", " → ".join(nombres))
-                print("Distancia total:", distancia, "km")
-
-  
-        elif opcion == "7":
+        case "7":
             print("\n--- Orden Topológico ---")
+            mostrar_orden_topologico(grafo,sucursales)
 
-            orden = orden_topologico(grafo)
-
-            if orden is None:
-                print("El grafo contiene ciclos. No es posible ordenarlo.")
-            else:
-                nombres = [sucursales[n].nombre for n in orden]
-                print("Orden:", " → ".join(nombres))
-                
-        elif opcion == "8":
+        case "8":
             ultimo_id = registrar_paquete(abb, heap, paquetes, mapa_sucursales, ultimo_id)
+            
+        case "9":
+            agregar_sucursal(sucursales, grafo, mapa_sucursales)
 
-
-        elif opcion == "0":
-            print("Saliendo...")
-            break
+        case "10":
+            modificar_sucursal(sucursales, mapa_sucursales)
         
-        else:
+        case "11":
+            listar_sucursales(sucursales)
+            
+        case "0":
+            print("Saliendo...")
+            return
+
+        case _:
             print("Opción incorrecta.")
+    menu()
+
 
 menu()

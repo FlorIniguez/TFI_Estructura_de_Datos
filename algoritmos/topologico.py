@@ -44,3 +44,13 @@ def orden_topologico(grafo):
         return None
 
     return orden
+
+def mostrar_orden_topologico(grafo, sucursales):
+    orden = orden_topologico(grafo)
+
+    if orden is None:
+        print("El grafo contiene ciclos. No es posible ordenarlo.")
+        return
+
+    nombres = [sucursales[n].nombre for n in orden]
+    print("Orden topológico:", " → ".join(nombres))

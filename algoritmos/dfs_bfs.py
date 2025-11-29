@@ -45,6 +45,20 @@ def bfs_camino(grafo, inicio, destino):
     #Doy vuelta la lista inicio -> destino
     return camino[::-1]
 
+def bfs_mostrar_camino(grafo, sucursales, inicio, destino):
+    if inicio >= len(sucursales) or destino >= len(sucursales):
+        print("Alguna sucursal no existe.")
+        return
+
+    camino = bfs_camino(grafo, inicio, destino)
+
+    if camino is None:
+        print("No existe camino entre las sucursales.")
+        return
+
+    nombres = [sucursales[n].nombre for n in camino]
+    print("Camino más corto (por tramos):", " → ".join(nombres))
+
 
 #DFS — Para verificar si existe un camino (NO mínimo)
 def dfs_camino(grafo, inicio, destino, visitado=None):
@@ -72,3 +86,16 @@ def dfs_camino(grafo, inicio, destino, visitado=None):
     #Si no llegue a destino
     return None
 
+def dfs_mostrar_camino(grafo, sucursales, inicio, destino):
+    if inicio >= len(sucursales) or destino >= len(sucursales):
+        print("Alguna sucursal no existe.")
+        return
+
+    camino = dfs_camino(grafo, inicio, destino)
+
+    if camino is None:
+        print("No existe un camino posible entre las sucursales.")
+        return
+
+    nombres = [sucursales[n].nombre for n in camino]
+    print("Camino encontrado (DFS):", " → ".join(nombres))
